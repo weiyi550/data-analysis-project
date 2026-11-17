@@ -110,13 +110,3 @@ e-commerce-data-analytics-project/
 
 If this project helped you understand end-to-end analytics workflows, or inspired your own dashboard build — consider leaving a ⭐!
 It goes a long way in supporting the work and helping others discover it.
-
-### 👤 [Soumo444](https://github.com/Soumo444)
-
-<a href="https://github.com/Soumo444">
-  <img src="https://img.shields.io/badge/GitHub-Follow-181717?style=for-the-badge&logo=github&logoColor=white" alt="Follow on GitHub"/>
-</a>
-
-**Made with ❤️, Python, SQL & Power BI**
-
-</div>
