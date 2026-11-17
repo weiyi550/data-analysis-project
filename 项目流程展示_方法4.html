@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>电商销售分析 · 项目流程展示（方法4）</title>
+  <style>
+    :root {
+      --bg: #0b1220;
+      --panel: #121a2b;
+      --panel-2: #182338;
+      --line: #2a3a58;
+      --text: #e8eef8;
+      --muted: #93a4c3;
+      --accent: #3dd6c6;
+      --accent-2: #7aa2ff;
+      --warn: #f5c26b;
+      --danger: #ff8a8a;
+      --ok: #7ddea0;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: radial-gradient(1200px 600px at 10% -10%, #1a2a4a 0%, var(--bg) 45%);
+      color: var(--text);
+    }
+    .app {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      min-height: 100vh;
+    }
+    nav {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      padding: 22px 16px;
+      border-right: 1px solid var(--line);
+      background: rgba(11, 18, 32, 0.92);
+      backdrop-filter: blur(8px);
+    }
+    .brand { font-size: 13px; color: var(--accent); letter-spacing: .08em; }
+    h1 { font-size: 20px; margin: 8px 0 6px; line-height: 1.35; }
+    .sub { color: var(--muted); font-size: 12px; line-height: 1.5; }
+    .steps { margin-top: 22px; display: flex; flex-direction: column; gap: 6px; }
+    .steps a {
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none; color: var(--muted);
+      padding: 9px 10px; border-radius: 10px; font-size: 13px;
+      border: 1px solid transparent;
+    }
+    .steps a .n {
+      width: 22px; height: 22px; border-radius: 50%;
+      display: grid; place-items: center;
+      background: #22314c; color: #c9d7f0; font-size: 11px;
+    }
+    .steps a.active {
+      color: var(--text); background: var(--panel-2); border-color: var(--line);
+    }
+    .steps a.active .n { background: var(--accent); color: #06221e; font-weight: 700; }
+    main { padding: 28px 36px 80px; max-width: 1180px; }
+    .hero {
+      background: linear-gradient(180deg, var(--panel), #101827);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 22px 24px;
+    }
+    .kpis { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-top: 16px; }
+    .kpi {
+      background: var(--panel-2); border: 1px solid var(--line);
+      border-radius: 12px; padding: 12px;
+    }
+    .kpi b { display: block; font-size: 20px; margin-top: 4px; }
+    .kpi span { color: var(--muted); font-size: 12px; }
+    .note {
+      margin-top: 14px; color: var(--muted); font-size: 13px; line-height: 1.65;
+    }
+    section {
+      margin-top: 28px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 22px 24px;
+    }
+    section h2 { margin: 0 0 8px; font-size: 22px; }
+    .lead { color: var(--muted); margin: 0 0 16px; line-height: 1.7; }
+    .flow {
+      display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 18px;
+    }
+    .chip {
+      border: 1px solid var(--line); background: #101827;
+      border-radius: 999px; padding: 6px 10px; font-size: 12px; color: var(--muted);
+    }
+    .chip strong { color: var(--accent); font-weight: 600; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .card {
+      background: var(--panel-2); border: 1px solid var(--line);
+      border-radius: 14px; padding: 14px;
+    }
+    .card h3 { margin: 0 0 8px; font-size: 15px; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th, td { text-align: left; padding: 8px 6px; border-bottom: 1px solid var(--line); }
+    th { color: var(--muted); font-weight: 500; }
+    pre {
+      margin: 0; overflow: auto; background: #0a101b;
+      border: 1px solid var(--line); border-radius: 12px;
+      padding: 12px; font-size: 12px; line-height: 1.55; color: #d7e6ff;
+    }
+    img.chart {
+      width: 100%; border-radius: 12px; border: 1px solid var(--line);
+      background: #fff;
+    }
+    .caption { color: var(--muted); font-size: 12px; margin-top: 6px; }
+    .warn, .ok {
+      border-radius: 12px; padding: 10px 12px; font-size: 13px; line-height: 1.65;
+    }
+    .warn { background: rgba(245, 194, 107, .12); color: var(--warn); }
+    .ok { background: rgba(125, 222, 160, .1); color: var(--ok); }
+    ol.method { margin: 8px 0 0 18px; color: var(--text); }
+    ol.method li { margin: 6px 0; line-height: 1.6; }
+    footer { color: var(--muted); font-size: 12px; margin-top: 24px; }
+    @media (max-width: 1100px) {
+      .app { grid-template-columns: 1fr; }
+      nav {
+        position: relative; height: auto;
+        border-right: none; border-bottom: 1px solid var(--line);
+      }
+      .steps { flex-direction: row; flex-wrap: wrap; }
+      .kpis, .grid-2 { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 640px) {
+      .kpis, .grid-2 { grid-template-columns: 1fr; }
+      main { padding: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <nav>
+      <div class="brand">METHOD 4 · SCROLL SPY</div>
+      <h1>电商销售分析全流程</h1>
+      <div class="sub">Soumo444 / ecommerce-sales-analytics<br>Python ETL → SQL → Power BI</div>
+      <div class="steps" id="toc">
+        <a href="#overview" class="active"><span class="n">0</span>总览</a>
+        <a href="#s1"><span class="n">1</span>原始数据</a>
+        <a href="#s2"><span class="n">2</span>质量审计与清洗</a>
+        <a href="#s3"><span class="n">3</span>探索性分析 EDA</a>
+        <a href="#s4"><span class="n">4</span>客户分层与流失</a>
+        <a href="#s5"><span class="n">5</span>SQL 业务问数</a>
+        <a href="#s6"><span class="n">6</span>Power BI 看板</a>
+        <a href="#s7"><span class="n">7</span>洞察与建议</a>
+      </div>
+    </nav>
+    <main>
+      <div class="hero" id="overview">
+        <div class="brand">方法4说明</div>
+        <h1>左侧导航 + 滚动联动的单页流程说明书</h1>
+        <p class="note">
+          本页按仓库真实代码与清洗后 CSV 复盘，不照搬 README 里个别不严谨表述。
+          原始 55,000 笔订单经剔除净额为负后得到 54,387 笔；净收入约 <b>1.582 亿 INR</b>，客单价约 <b>2,910 INR</b>。
+          README 把 Gross Amount 写成 Gross Profit、把 25–45 写成 25–48、把 Srinagar 等写成高 AOV 城市，与数据不符，流程页以数据为准。
+        </p>
+        <div class="kpis">
+          <div class="kpi"><span>清洗后订单</span><b>54,387</b></div>
+          <div class="kpi"><span>净收入 Net</span><b>1.582 亿</b></div>
+          <div class="kpi"><span>毛额 Gross</span><b>1.655 亿</b></div>
+          <div class="kpi"><span>折扣总额</span><b>730 万</b></div>
+          <div class="kpi"><span>独立客户</span><b>28,921</b></div>
+        </div>
+        <div class="flow">
+          <span class="chip"><strong>1</strong> CSV 原始表</span>
+          <span class="chip"><strong>2</strong> Pandas 质量报告</span>
+          <span class="chip"><strong>3</strong> 过滤负净额 + 日期拆解</span>
+          <span class="chip"><strong>4</strong> EDA 出图</span>
+          <span class="chip"><strong>5</strong> SQLite 跑 SQL</span>
+          <span class="chip"><strong>6</strong> Power BI</span>
+          <span class="chip"><strong>7</strong> 业务建议</span>
+        </div>
+      </div>
+
+      <section id="s1">
+        <h2>1. 原始数据</h2>
+        <p class="lead">文件 <code>1_Data/1_raw/project1_df.csv</code>，55,000 行 × 13 列。一笔订单一行，主键 TID 无重复。金额字段为印度卢比 INR，不是美元。</p>
+        <div class="grid-2">
+          <div class="card">
+            <h3>字段字典</h3>
+            <table>
+              <tr><th>字段</th><th>含义</th></tr>
+              <tr><td>CID / TID</td><td>客户 ID / 交易 ID</td></tr>
+              <tr><td>Gender, Age Group</td><td>性别、年龄段</td></tr>
+              <tr><td>Purchase Date</td><td>下单时间（原始为日/月/年）</td></tr>
+              <tr><td>Product Category</td><td>品类，共 9 类</td></tr>
+              <tr><td>Discount Availed / Name / Amount</td><td>是否用券、券名、折扣额</td></tr>
+              <tr><td>Gross / Net Amount</td><td>折前额 / 实付净额</td></tr>
+              <tr><td>Purchase Method, Location</td><td>支付方式、城市（14 个）</td></tr>
+            </table>
+          </div>
+          <div class="card">
+            <h3>原始样例（前两行）</h3>
+            <pre>CID=943146  TID=5876328741  Female  25-45
+Electronics  FESTIVE50  Discount=64.30
+Gross=725.30  Net=661.00  Credit Card  Ahmedabad
+
+CID=180079  TID=1018503182  Male  25-45
+Electronics  SEASONALOFFER21  Discount=175.19
+Gross=4638.99  Net=4463.80  Credit Card  Bangalore</pre>
+          </div>
+        </div>
+      </section>
+
+      <section id="s2">
+        <h2>2. 质量审计与清洗</h2>
+        <p class="lead">笔记本 <code>3_notebook/01_data_quality.ipynb</code> 与 SQL <code>5_SQL Business Analysi/01_data_quality.sql</code> 做同一件事：先审计，再产出 <code>1_Data/2_processed/ecommerce_cleaned.csv</code>。</p>
+        <div class="grid-2">
+          <div class="card">
+            <h3>实际检查结果（对原始表）</h3>
+            <table>
+              <tr><th>检查项</th><th>结果</th></tr>
+              <tr><td>TID 重复</td><td>0</td></tr>
+              <tr><td>关键字段缺失</td><td>仅 Discount Name 缺失 27,585（未用券）</td></tr>
+              <tr><td>Net Amount &lt; 0</td><td>613 行，清洗时删除</td></tr>
+              <tr><td>财务勾稽 Gross − Discount ≈ Net</td><td>脚本用 0.01 容差核对</td></tr>
+            </table>
+            <ol class="method">
+              <li>去掉净额为负的 613 行：55,000 → 54,387。</li>
+              <li>空折扣名填 <code>No Discount</code>。</li>
+              <li>解析日期，派生 Year / Month / Month Name / Day of Week。</li>
+              <li>写出清洗表（仓库里已是 <code>2_processed</code>，笔记本注释仍写旧路径 <code>1_processed</code>）。</li>
+            </ol>
+          </div>
+          <div class="card">
+            <h3>对应 SQL 审计（节选）</h3>
+            <pre>SELECT COUNT(*) AS Total_Rows FROM ecommerce;
+
+SELECT
+  SUM(CASE WHEN CID IS NULL THEN 1 ELSE 0 END) AS Missing_CID,
+  SUM(CASE WHEN TID IS NULL THEN 1 ELSE 0 END) AS Missing_TID,
+  SUM(CASE WHEN "Net Amount" IS NULL THEN 1 ELSE 0 END) AS Missing_Net
+FROM ecommerce;
+
+SELECT TID, COUNT(*) AS Duplicate_Count
+FROM ecommerce GROUP BY TID HAVING COUNT(*) > 1;
+
+SELECT COUNT(*) AS Invalid_Net_Amount_Rows
+FROM ecommerce WHERE "Net Amount" &lt;= 0;</pre>
+          </div>
+        </div>
+      </section>
+
+      <section id="s3">
+        <h2>3. 探索性分析 EDA</h2>
+        <p class="lead"><code>02_eda.ipynb</code> 在清洗表上做分组聚合，并把图存进 <code>4_images/</code>。电子+服装合计约占净收入 <b>49.8%</b>，接近 README 所说的「超过 50%」。</p>
+        <div class="grid-2">
+          <div>
+            <img class="chart" src="4_images/01_monthly_revenue_trend.png" alt="月度净收入趋势" />
+            <div class="caption">时间窗约 2019-09 至 2024-09，共 61 个月。</div>
+          </div>
+          <div>
+            <img class="chart" src="4_images/06_aov_by_category.png" alt="品类客单价" />
+            <div class="caption">品类 AOV 接近，差异主要来自订单量，而非客单拉开。</div>
+          </div>
+          <div>
+            <img class="chart" src="4_images/02_revenue_by_age_gender.png" alt="年龄与性别收入" />
+            <div class="caption">25–45 贡献净收入 40.4%；18–45 合计约 70%。性别三档收入几乎均分。</div>
+          </div>
+          <div>
+            <img class="chart" src="4_images/04_top_locations.png" alt="城市收入" />
+            <div class="caption">量在孟买、德里、班加罗尔；AOV 城市间只差约 100 INR，Srinagar / Dehradun / Varanasi 订单量小且 AOV 并不突出。</div>
+          </div>
+        </div>
+        <div class="card" style="margin-top:14px">
+          <h3>品类净收入结构（清洗后）</h3>
+          <table>
+            <tr><th>品类</th><th>订单</th><th>净收入占比</th></tr>
+            <tr><td>Electronics</td><td>16,362</td><td>30.0%</td></tr>
+            <tr><td>Clothing</td><td>10,833</td><td>19.7%</td></tr>
+            <tr><td>Beauty and Health</td><td>8,255</td><td>15.3%</td></tr>
+            <tr><td>Sports &amp; Fitness</td><td>5,514</td><td>10.2%</td></tr>
+            <tr><td>Home &amp; Kitchen</td><td>5,429</td><td>10.1%</td></tr>
+            <tr><td>其余四类合计</td><td>7,994</td><td>14.7%</td></tr>
+          </table>
+        </div>
+      </section>
+
+      <section id="s4">
+        <h2>4. 客户分层与流失</h2>
+        <p class="lead"><code>03_customer_analysis.ipynb</code> 按 CID 聚合订单次数：1 次=一次性，2–3 次=复购，4 次及以上=VIP。流失在本项目里被定义为「只买过一次」，不是真正的时间窗流失。</p>
+        <div class="grid-2">
+          <div>
+            <img class="chart" src="4_images/03_customer_tiers.png" alt="客户层级" />
+            <div class="caption">人数：一次性 13,062；复购 13,661；VIP 2,198。</div>
+          </div>
+          <div>
+            <img class="chart" src="4_images/07_customer_segments_revenue.png" alt="分层收入" />
+            <div class="caption">复购客贡献约 9,201 万净收入，是主力盘。</div>
+          </div>
+          <div>
+            <img class="chart" src="4_images/08_customer_avg_spend.png" alt="人均花费" />
+            <div class="caption">一次性人均约 2,910；复购约 6,735；VIP 约 12,840。</div>
+          </div>
+          <div>
+            <img class="chart" src="4_images/09_customer_churn_analysis.png" alt="流失对比" />
+            <div class="caption">一次性客户约占 45.2%，复购/留存约占 54.8%。</div>
+          </div>
+        </div>
+      </section>
+
+      <section id="s5">
+        <h2>5. SQL 业务问数</h2>
+        <p class="lead"><code>05_sql_analysis.ipynb</code> 把清洗 CSV 灌进 SQLite 内存库表 <code>ecommerce</code>，再按分号拆开执行 01–04 四个 SQL 文件。这是「同一套指标，Python 与 SQL 对照」。</p>
+        <div class="grid-2">
+          <div class="card">
+            <h3>02 经营概览</h3>
+            <pre>-- 总订单、毛额、折扣、净额、AOV
+SELECT COUNT(TID),
+       ROUND(SUM("Gross Amount"),2),
+       ROUND(SUM("Discount Amount (INR)"),2),
+       ROUND(SUM("Net Amount"),2),
+       ROUND(AVG("Net Amount"),2)
+FROM ecommerce;
+
+-- 品类收入份额
+SELECT "Product Category",
+       COUNT(TID) AS orders,
+       ROUND(SUM("Net Amount")*100.0
+         / (SELECT SUM("Net Amount") FROM ecommerce), 2) AS share
+FROM ecommerce
+GROUP BY "Product Category"
+ORDER BY SUM("Net Amount") DESC;</pre>
+          </div>
+          <div class="card">
+            <h3>03 / 04 客户与折扣</h3>
+            <pre>WITH CustomerOrders AS (
+  SELECT CID, COUNT(TID) AS Order_Count,
+         SUM("Net Amount") AS Lifetime_Spend
+  FROM ecommerce GROUP BY CID
+)
+SELECT CASE WHEN Order_Count = 1
+            THEN 'One-Time / Churned'
+            ELSE 'Retained / Repeat' END AS status,
+       COUNT(*) , ROUND(AVG(Lifetime_Spend),2)
+FROM CustomerOrders
+GROUP BY 1;
+
+-- 折扣：Yes 26,802 单，净 AOV 2,803
+--       No  27,585 单，净 AOV 3,013
+-- 信用卡折扣额最高（约 294 万）</pre>
+            <img class="chart" src="4_images/05_discount_impact.png" alt="折扣影响" style="margin-top:10px" />
+          </div>
+        </div>
+        <p class="ok" style="margin-top:12px">支付结构：信用卡 21,871 单、借记卡 13,641 单，两者折扣绝对额也最高。UPI（PhonePe / Paytm / GPay）体量接近，适合做渠道对比，而不是只写「UPI 最大」。</p>
+      </section>
+
+      <section id="s6">
+        <h2>6. Power BI 看板</h2>
+        <p class="lead">交付物 <code>6_power_bi_dashboard/ecom sales dahboard.pbix</code>（文件名有拼写误差）。仓库不包含报表截图源文件以外的导出页；本地需用 Power BI Desktop 打开，数据源应对清洗后 CSV。</p>
+        <div class="card">
+          <h3>建议对照的看板页（与笔记本问题对齐）</h3>
+          <ol class="method">
+            <li>执行层：订单数、净收入、AOV、折扣率。</li>
+            <li>品类与时间：电子/服装占比、月趋势。</li>
+            <li>客群：年龄 25–45、一次性 vs 复购。</li>
+            <li>支付与折扣：信用卡折扣侵蚀。</li>
+            <li>城市：按订单量看一线城，不要把小样本城市当高 AOV 故事。</li>
+          </ol>
+        </div>
+      </section>
+
+      <section id="s7">
+        <h2>7. 洞察、建议，以及和 README 的差异</h2>
+        <p class="lead">业务文字在 <code>7_businiess_insights/business_insights.md</code>。下面把「仓库叙事」和「我按清洗表重算」分开，方便面试时讲清楚你读过数据。</p>
+        <div class="grid-2">
+          <div class="card">
+            <h3>站得住的结论</h3>
+            <ol class="method">
+              <li>电子 + 服装接近一半净收入，是捆绑销售主场。</li>
+              <li>18–45 岁贡献约七成净收入；核心档是 25–45。</li>
+              <li>约一半订单用券；用券后净 AOV 更低（2,803 vs 3,013），要控信用卡大额券。</li>
+              <li>复购客贡献收入远高于人数占比，值得做第 2 单激励。</li>
+            </ol>
+          </div>
+          <div class="card">
+            <h3>需要改口的 README 点</h3>
+            <div class="warn">
+              Gross Amount 1.655 亿不是毛利；折扣/毛额约 4.41%，不是「利润率 4.61%」。
+              金额单位是 INR。<br>
+              Srinagar / Dehradun / Varanasi 订单分别约 547 / 549 / 601，AOV 处于中下游，不是高客单扩张样本。
+            </div>
+          </div>
+        </div>
+        <div class="card" style="margin-top:14px">
+          <h3>整条流水线一句话</h3>
+          <p class="lead" style="margin:0">原始交易 CSV → Pandas 审计并丢掉负净额 → 日期与折扣名补全 → 分组 EDA 出图 → 同一张表进 SQLite 用 SQL 复算 KPI / 分层 / 折扣 → Power BI 给业务看 → Markdown 写建议。工具栈见 <code>requirment.txt</code>：pandas、matplotlib、seaborn、SQLAlchemy、Jupyter。</p>
+        </div>
+      </section>
+      <footer>本地路径：ecommerce-sales-analytics/项目流程展示_方法4.html · 用浏览器直接打开即可，图片引用同目录 4_images。</footer>
+    </main>
+  </div>
+  <script>
+    const links = [...document.querySelectorAll("#toc a")];
+    const ids = links.map((a) => a.getAttribute("href").slice(1));
+    const io = new IntersectionObserver((entries) => {
+      const vis = entries.filter((e) => e.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (!vis) return;
+      links.forEach((a) => a.classList.toggle("active", a.getAttribute("href") === "#" + vis.target.id));
+    }, { rootMargin: "-20% 0px -65% 0px", threshold: [0, 0.2, 0.6] });
+    ids.forEach((id) => io.observe(document.getElementById(id)));
+  </script>
+</body>
+</html>
